@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="layoutPlaygroundApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flexbox playground</title>
+    <link rel="stylesheet" href="lib/angular-material.min.css">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body ng-controller="AppCtrl">
+    <md-content class="md-padding">
+    	<h1>Flexbox layout Visualization</h1>
+        <div layout-gt-md="row" layout="column">
+            <div flex class="right-padding">
+                <h3>CSS Flexbox guide</h3>
+                <div layout="row" layout-align="center center">
+                    <p>If you are not familiar with the css properties below see, <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">A complete guide to Flexbox and its properties.</a>  Flexbox layout is most appropriate to the components of an application, and small-scale layouts, while the <a href="https://css-tricks.com/snippets/css/complete-guide-grid/">Grid layout</a> is intended for larger scale layouts.</p>
+                </div>
+                <md-divider></md-divider>
+
+                <h3>Children Width &ndash; <span>cell</span></h3>
+                <div layout="row" layout-align="center center" class="code">
+                    <div flex="15">width: {{children_width}}%</div>
+                    <md-slider flex min="0" max="100" ng-model="children_width" aria-label="width"></md-slider>
+                </div>
+                <md-divider></md-divider>
+
+                <h3>Parent Properties &ndash; <span>container</span></h3>
+                <div layout="column" layout-gt-md="row" class="code">
+                    <div layout="row">
+                        <div flex>
+                            <strong>direction</strong>
+                            <md-radio-group ng-model="parent.flexDirection">
+                                <md-radio-button value="row">row</md-radio-button>
+                                <md-radio-button value="row-reverse">row-reverse</md-radio-button>
+                                <md-radio-button value="column">column</md-radio-button>
+                                <md-radio-button value="column-reverse">column-reverse</md-radio-button>
+                            </md-radio-group>
+                        </div>
+
+                        <div flex>
+                            <strong>wrap</strong>
+                            <md-radio-group ng-model="parent.flexWrap">
+                                <md-radio-button value="nowrap">nowrap</md-radio-button>
+                                <md-radio-button value="wrap">wrap</md-radio-button>
+                                <md-radio-button value="wrap-reverse">wrap-reverse</md-radio-button>
+                            </md-radio-group>
+                        </div>
+                    </div>
+
+                    <div layout="row">
+                        <div flex>
+                            <strong>justify-content</strong>
+                            <md-radio-group ng-model="parent.justifyContent">
+                                <md-radio-button value="flex-start">flex-start</md-radio-button>
+                                <md-radio-button value="flex-end">flex-end</md-radio-button>
+                                <md-radio-button value="center">center</md-radio-button>
+                                <md-radio-button value="space-between">space-between</md-radio-button>
+                                <md-radio-button value="space-around">space-around</md-radio-button>
+                            </md-radio-group>
+                        </div>
+
+                        <div flex>
+                            <strong>align-items</strong>
+                            <md-radio-group ng-model="parent.alignItems">
+                                <md-radio-button value="stretch">stretch</md-radio-button>
+                                <md-radio-button value="flex-start">flex-start</md-radio-button>
+                                <md-radio-button value="flex-end">flex-end</md-radio-button>
+                                <md-radio-button value="center">center</md-radio-button>
+                                <md-radio-button value="baseline">baseline</md-radio-button>
+                            </md-radio-group>
+                        </div>
+                    </div>
+
+                    <div layout="row">
+                        <div flex>
+                            <strong>align-content</strong>
+                            <md-radio-group ng-model="parent.alignContent">
+                                <md-radio-button value="stretch">stretch</md-radio-button>
+                                <md-radio-button value="flex-start">flex-start</md-radio-button>
+                                <md-radio-button value="flex-end">flex-end</md-radio-button>
+                                <md-radio-button value="center">center</md-radio-button>
+                                <md-radio-button value="space-between">space-between</md-radio-button>
+                                <md-radio-button value="space-around">space-around</md-radio-button>
+                            </md-radio-group>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div flex>
+                <h3 class="pull-left">Result</h3>
+                <p class="pull-right">
+                    <md-button class="md-accent md-raised" ng-click="addChild()">Add child</md-button>
+                </p>
+
+                <div class="clearfix"></div>
+
+                <div class="flexbox-parent" ng-attr-style="
+                      -webkit-flex-direction:  {{parent.flexDirection}};
+                      flex-direction:          {{parent.flexDirection}};
+
+                      -webkit-flex-wrap:       {{parent.flexWrap}};
+                      flex-wrap:               {{parent.flexWrap}};
+
+                      -webkit-justify-content: {{parent.justifyContent}};
+                      justify-content:         {{parent.justifyContent}};
+
+                      -webkit-align-items:     {{parent.alignItems}};
+                      align-items:             {{parent.alignItems}};
+
+                      -webkit-align-content:   {{parent.alignContent}};
+                      align-content:           {{parent.alignContent}};
+                ">
+                    <div class="code md-whiteframe-z1" ng-repeat="child in children" ng-attr-style="
+                        width:               {{children_width}}%;
+
+                        -webkit-order:       {{child.order}};
+                        order:               {{child.order}};
+
+                        -webkit-flex-grow:   {{child.flexGrow}};
+                        flex-grow:           {{child.flexGrow}};
+
+                        -webkit-flex-shrink: {{child.flexShrink}};
+                        flex-shrink:         {{child.flexShrink}};
+
+                        -webkit-flex-basis:  {{child.flexBasis}};
+                        flex-basis:          {{child.flexBasis}};
+
+                        -webkit-align-self:  {{child.alignSelf}};
+                        align-self:          {{child.alignSelf}};
+
+                    ">
+                        <div class="clearfix">
+                            <span class="child-number" aria-label="Number">{{$index + 1}}</span>
+                            <span class="remove-child pull-right" ng-click="removeChild($index)" title="Remove">
+                  &#x2716;
+                </span>
+                        </div>
+
+                        <div class="child-controls">
+                            <md-input-container>
+                                <md-tooltip md-direction="top">order</md-tooltip>
+                                <input type="number" ng-model="children[$index].order">
+                            </md-input-container>
+
+                            <md-input-container>
+                                <md-tooltip md-direction="top">flex-grow</md-tooltip>
+                                <input type="number" ng-model="children[$index].flexGrow">
+                            </md-input-container>
+
+                            <md-input-container>
+                                <md-tooltip md-direction="top">flex-shrink</md-tooltip>
+                                <input type="number" ng-model="children[$index].flexShrink">
+                            </md-input-container>
+
+                            <md-input-container>
+                                <md-tooltip md-direction="top">flex-basis</md-tooltip>
+                                <input type="text" ng-model="children[$index].flexBasis">
+                            </md-input-container>
+
+                            <md-input-container>
+                                <md-tooltip md-direction="top">align-self</md-tooltip>
+                                <md-select ng-model="children[$index].alignSelf">
+                                    <md-option ng-value="value" ng-repeat="value in ['auto', 'flex-start', 'flex-end', 'center', 'baseline', 'stretch']">{{value}}</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </md-content>
+
+    <!-- AngularJS -->
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/angular-animate.min.js"></script>
+    <script src="lib/angular-aria.min.js"></script>
+
+    <!-- Angular Material JavaScript -->
+    <script src="lib/angular-material.min.js"></script>
+
+    <!-- Playground App -->
+    <script src="js/app.js"></script>
+</body>
+
+</html>
